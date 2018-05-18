@@ -3,11 +3,9 @@ const mongoose = require('mongoose');
 const User = mongoose.model('users');
 
 
-exports.configDeserializeUser = (id, done) => {
-    User.findById(id)
-        .then(user => {
-            done(null, user);
-        });
+exports.configDeserializeUser = async (id, done) => {
+    let user = await User.findById(id);
+    done(null, user);
 }
 
 /**
@@ -21,31 +19,30 @@ exports.configDeserializeUser = (id, done) => {
  *  that our callback was finished successfully. It will be called 
  *  after the User has been retrieved or created on the Database. 
  */
-exports.saveOAuthUserProfile = (providerUserProfile, done) => {
-    User.findOne({ googleId : providerUserProfile.providerData.id })
-        .then((existingUser) => {
-            if (existingUser) {
-                done(null, existingUser);
-            } else {
+exports.saveOAuthUserProfile = async (providerUserProfile, done) => {
+    
+    let user = await User.findOne({ googleId : providerUserProfile.providerData.id });
 
-                var providerUserName = providerUserProfile.username || 
-                                        ((providerUserProfile.email) ?  
-                                            providerUserProfile.email.split('@')[0] : '');
+    if (user) {
+        return done(null, user);
+    }
+    
+    let providerUserName = providerUserProfile.username || 
+                                ((providerUserProfile.email) ?  
+                                    providerUserProfile.email.split('@')[0] : '');
 
-                new User({ 
-                
-                    googleId : providerUserProfile.providerData.id,
-                    firstName: providerUserProfile.firstName,
-                    lastName: providerUserProfile.lastName,
-                    username: providerUserName,
-                    displayName: providerUserProfile.displayName,
-                    email: providerUserProfile.email,
-                    provider: providerUserProfile.provider,
-                    providerData: providerUserProfile.providerData 
-                
-                })
-                    .save()
-                    .then(user => done(null, user));
-            }
-        });
+    user = await new User({ 
+                googleId : providerUserProfile.providerData.id,
+                firstName: providerUserProfile.firstName,
+                lastName: providerUserProfile.lastName,
+                username: providerUserName,
+                displayName: providerUserProfile.displayName,
+                email: providerUserProfile.email,
+                provider: providerUserProfile.provider,
+                providerData: providerUserProfile.providerData 
+            
+            }).save();
+
+    done(null, user);
+
 }
