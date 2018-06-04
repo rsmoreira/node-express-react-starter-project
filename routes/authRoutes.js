@@ -8,13 +8,16 @@ module.exports = (app) => {
     app.get(
         '/auth/google', 
         passport.authenticate('google', {
-            scope: ['profile', 'email']
+            scope: ['profile', 'email'],
+            prompt: 'select_account',
+            hd: 'e-core.com'
+
         })
     );
 
     app.get(
         '/auth/google/callback',
-        passport.authenticate('google'),
+        passport.authenticate('google', { failureRedirect: '/authfailed' }),
         (req, res) => {
             res.redirect('/dashboard')
         }

@@ -35,6 +35,10 @@ passport.use(
              * Google have validated with the user through 
              * OAuth.
              */
+            if (!profile._json.domain || profile._json.domain != "e-core.com") {
+                return done(null, false);
+            }
+            
             var providerData = profile._json;
             providerData.accessToken = accessToken;
             providerData.refreshToken = refreshToken;
