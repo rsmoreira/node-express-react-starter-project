@@ -6,13 +6,8 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Landing from './Landing';
+import AuthFailed from './AuthFailed';
 const Dashboard = () => <h2>Dashboard</h2>;
-const AuthFailed = () => <div>
-                            <p>
-                                Authentication failed. 
-                                You must use an e-Core e-mail.
-                            </p>
-                        </div>;
 
 class App extends Component {
     componentDidMount() {
