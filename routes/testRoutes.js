@@ -18,4 +18,13 @@ module.exports = app => {
         res.send(req.session);
     });
 
+    app.post('/test/authldap', (req, res) => {
+        console.log(req.body.username);
+        console.log(req.body.password);
+
+        res.send('ok')
+        
+        
+    });
+
 };

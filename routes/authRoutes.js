@@ -22,7 +22,7 @@ module.exports = (app) => {
             res.redirect('/dashboard')
         }
     );
-    
+
     // Route to logout
     app.get('/api/logout', (req, res) => {
         req.logout();
@@ -35,5 +35,32 @@ module.exports = (app) => {
     app.get('/api/current_user', (req, res) => {
         res.send(req.user);
     });
+
+    /* LDAP Authentication 
+    
+        Authentication made against ldap://ldap.forumsys.com:389. 
+
+        To call it, just request an Http Post request over http://localhost:5000/auth/ldap
+        As parameters you need inform a json as the following:
+            {
+                "username": "username",
+                "password": "password"
+            }
+        Examples of usernames: "einstein", "newton", "galieleo" and "tesla".
+        Password is always "password".
+    */
+    app.post('/auth/ldap', 
+        (req, res, next) => {
+            passport.authenticate('ldapauth', {session: false}, (err, user, info) => {
+                if (err) {
+                    return next(err);
+                }
+                if (!user) {
+                    return res.send({sucess:false, message: 'authentication failed'});
+                }
+                return res.send({sucess: true, message:'authentication succeded.'})
+            })(req, res, next);
+        }
+    );
 
 };
