@@ -32,7 +32,13 @@ const userSchema = new Schema({
 	},
 	resetPasswordExpires: {
 		type: Date
-	}
+	},
+
+	ldapUid: String,
+	ldapDn: String,
+	ldapUidNumber: String,
+	ldapGidNumber: String,
+	ldapHomeDirectory: String
 });
 
 // This command below will tell mongoose to create a new collection named 'users', 
