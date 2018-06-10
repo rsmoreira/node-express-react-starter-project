@@ -21,23 +21,34 @@ exports.configDeserializeUser = async (id, done) => {
  */
 exports.saveOAuthUserProfile = async (providerUserProfile, done) => {
     
-    let user = await User.findOne({ googleId : providerUserProfile.providerData.id });
+    let user = await User.findOne({ providerId : providerUserProfile.id });
 
     if (user) {
         return done(null, user);
     }
     
-    let providerUserName = providerUserProfile.username || 
-                                ((providerUserProfile.email) ?  
+    let providerUserName;
+
+    if (providerUserProfile.provider === 'google') {
+        providerUserName = providerUserProfile.username || ((providerUserProfile.email) ?  
                                     providerUserProfile.email.split('@')[0] : '');
+    } else {
+        prividerUserName = providerUserProfile.username;
+    }
 
     user = await new User({ 
-                googleId : providerUserProfile.providerData.id,
+                providerId : providerUserProfile.id,
+
                 firstName: providerUserProfile.firstName,
                 lastName: providerUserProfile.lastName,
                 username: providerUserName,
                 displayName: providerUserProfile.displayName,
                 email: providerUserProfile.email,
+                ldapUid: providerUserProfile.ldapUid,
+                ldapDn: providerUserProfile.ldapDn,
+                ldapUidNumber: providerUserProfile.ldapUidNumber,
+                ldapGidNumber: providerUserProfile.ldapGidNumber,
+                ldapHomeDirectory: providerUserProfile.ldapHomeDirectory,
                 provider: providerUserProfile.provider,
                 providerData: providerUserProfile.providerData 
             

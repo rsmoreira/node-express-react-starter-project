@@ -19,6 +19,7 @@ module.exports = () => {
                  * Google have validated with the user through 
                  * OAuth.
                  */
+                
                 if (!profile._json.domain || profile._json.domain != "e-core.com") {
                     return done(null, false);
                 }
@@ -33,6 +34,7 @@ module.exports = () => {
                     displayName: profile.displayName,
                     email: profile.emails[0].value,
                     username: profile.username,
+                    id: providerData.id,
                     provider: 'google',
                     providerIdentifierField: 'id',
                     providerData: providerData

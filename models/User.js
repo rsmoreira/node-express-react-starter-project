@@ -4,18 +4,24 @@ const { Schema } = mongoose;
 // It is our Mongoose Schema for the collection User.
 // It will the responsible to map all possible attributes of an User record could have.
 const userSchema = new Schema({
-    googleId : String,
+	providerId : String,
     firstName : String,
     lastName : String,
     username : String,
     displayName : String,
     email : String,
-    provider : String,
+	provider : String,
+	
+	ldapUid: String,
+	ldapDn: String,
+	ldapUidNumber: String,
+	ldapGidNumber: String,
+	ldapHomeDirectory: String,
+
     providerData: {},
 	roles: {
 		type: [{
-			type: String,
-			enum: ['user', 'admin']
+			type: String
 		}],
 		default: ['user']
 	},
@@ -32,13 +38,7 @@ const userSchema = new Schema({
 	},
 	resetPasswordExpires: {
 		type: Date
-	},
-
-	ldapUid: String,
-	ldapDn: String,
-	ldapUidNumber: String,
-	ldapGidNumber: String,
-	ldapHomeDirectory: String
+	}
 });
 
 // This command below will tell mongoose to create a new collection named 'users', 

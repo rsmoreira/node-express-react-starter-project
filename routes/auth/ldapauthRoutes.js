@@ -1,4 +1,6 @@
 const passport = require('passport');
+const keys = require('../../config/keys/keys');
+const users = require('../../app/controllers/users.server.controller');
 
 // this line below allows that app, crated into the index.js, can be used here.
 module.exports = (app) => {
@@ -19,7 +21,7 @@ module.exports = (app) => {
    app.post('/auth/ldap', 
         (req, res, next) => {
             passport.authenticate('ldapauth', 
-                (err, user, info) => {
+                async (err, user, info) => {
                     if (err) { return next(err) }
                     
                     if (!user) {
@@ -28,6 +30,7 @@ module.exports = (app) => {
                     
                     // create the user into the data base!
                     var providerUserProfile = {
+                        id: user.dn,
                         firstName: user.cn,
                         lastName: user.sn,
                         displayName: user.cn,
@@ -40,19 +43,19 @@ module.exports = (app) => {
                         ldapGidNumber: user.gidNumber,
                         ldapHomeDirectory: user.homeDirectory,
                         provider: 'ldap',
-                        providerIdentifierField: 'id',
+                        providerIdentifierField: 'dn',
                         providerData: user
                     }
 
-                    console.log(providerUserProfile);
+                    users.saveOAuthUserProfile(providerUserProfile, (err, dsUser) => {
+                        if (err) { return next(err) }
 
-                    return res.send({sucess: true, message:'authentication succeded.'})
-
-                    // req.logIn(user, err => {
-                    //     if (err) { return next(err) }
-
-                    //     return res.send({sucess: true, message:'authentication succeded.'})
-                    // })
+                        req.logIn(dsUser, err => {
+                            if (err) { return next(err) }
+    
+                            return res.send({sucess: true, message:'authentication succeded.'})
+                        }) 
+                    });
                 }
             )(req, res, next);
         });
