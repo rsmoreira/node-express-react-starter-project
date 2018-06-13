@@ -1,0 +1,19 @@
+LDAP Config example
+
+server: {
+    url: 'ldap://ldap.forumsys.com:389',
+    bindDn: 'cn=read-only-admin,dc=example,dc=com',
+    bindCredentials: 'password',
+    searchBase: 'dc=example,dc=com',
+    searchFilter: '(uid={{username}})'
+}
+
+It is a configuration for a LDAP Server Test at https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/. 
+
+To test:
+
+    POST >> http://localhost:5000/auth/ldap
+
+    body - json
+
+    { "username":"tesla", "password": "password")
