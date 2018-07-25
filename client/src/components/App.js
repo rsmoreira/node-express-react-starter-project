@@ -7,6 +7,8 @@ import * as actions from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 import AuthFailed from './AuthFailed';
+import Sidenav from './Sidenav';
+
 const Dashboard = () => <h2>Dashboard</h2>;
 
 class App extends Component {
@@ -16,13 +18,21 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div >
                 <BrowserRouter>
                     <div>
                         <Header />
-                        <Route exact path="/" component={ Landing } />
-                        <Route exact path="/dashboard" component={ Dashboard } />
-                        <Route exact path="/authfailed" component={ AuthFailed } />
+                        
+                        <div className="wrapper" style={{ paddingLeft: '330px' }}>
+                            
+                            <Route exact path="/" component={ Landing } />
+                            <Route exact path="/dashboard" component={ Dashboard } />
+                            <Route exact path="/authfailed" component={ AuthFailed } />
+                        </div>
+                        
+                        <div>
+                            <Sidenav />
+                        </div>
                     </div>
                 </BrowserRouter>
             </div>

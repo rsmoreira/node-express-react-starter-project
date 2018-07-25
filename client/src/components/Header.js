@@ -17,13 +17,23 @@ class Header extends Component {
     render() {
         return(
             <nav>
-                <div className="nav-wrapper">
-                    <Link 
-                        to={this.props.auth ? "/dashboard" : "/"}
-                        className="left brand-logo"
-                    >
-                        e-Core Native
-                    </Link>
+                <div className="nav-wrapper" style={{ backgroundColor: '#00418C' }}>
+                    
+                    <ul id="nav-mobile" className="left">
+                        <li>
+                        <Link 
+                            to={this.props.auth ? "/dashboard" : "/"}
+                            className="left brand-logo"
+                            style={{ paddingLeft: '10px', width: '17%' }}
+                        >
+                            <img src={"/images/eCore_logos_rgb-04_adjusted.png"}  style={{ width: '100%' }} />
+                            
+                        </Link>
+                        </li> 
+                        <li>
+                            
+                        </li>
+                    </ul>
                     
                     <ul id="nav-mobile" className="right">
                         {this.renderContent()}
