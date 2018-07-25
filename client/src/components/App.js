@@ -12,8 +12,19 @@ import Sidenav from './Sidenav';
 const Dashboard = () => <h2>Dashboard</h2>;
 
 class App extends Component {
+    
+    resize = () => {
+        console.log(window.width);
+        document.getElementById("main_div").style.paddingLeft = "50px";
+    }
+    
     componentDidMount() {
         this.props.fetchUser();
+        window.addEventListener('resize', this.resize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.resize)
     }
 
     render() {
@@ -23,16 +34,15 @@ class App extends Component {
                     <div>
                         <Header />
                         
-                        <div className="wrapper" style={{ paddingLeft: '330px' }}>
+                        <div id="main_div" style={{ paddingLeft: '330px' }}>
                             
                             <Route exact path="/" component={ Landing } />
                             <Route exact path="/dashboard" component={ Dashboard } />
                             <Route exact path="/authfailed" component={ AuthFailed } />
                         </div>
                         
-                        <div>
-                            <Sidenav />
-                        </div>
+                        <Sidenav />
+                        
                     </div>
                 </BrowserRouter>
             </div>
