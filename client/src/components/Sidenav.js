@@ -15,8 +15,6 @@ class Sidenav extends Component {
     }
 
     renderContent() {
-        console.log(this.props.auth);
-        
         switch (this.props.auth) {
             case null:
                 return;

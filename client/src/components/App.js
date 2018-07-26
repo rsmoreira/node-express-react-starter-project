@@ -13,14 +13,22 @@ const Dashboard = () => <h2>Dashboard</h2>;
 
 class App extends Component {
     
+    adjustMainDivPaddingLeft = () => {
+        if (window.innerWidth > 992 && this.props.auth) {
+            document.getElementById("main_div").style.paddingLeft = "330px";
+        } else {
+            document.getElementById("main_div").style.paddingLeft = "30px";
+        }
+    }
+    
     resize = () => {
-        console.log(window.width);
-        document.getElementById("main_div").style.paddingLeft = "50px";
+        this.adjustMainDivPaddingLeft();
     }
     
     componentDidMount() {
         this.props.fetchUser();
         window.addEventListener('resize', this.resize)
+        this.adjustMainDivPaddingLeft();
     }
 
     componentWillUnmount() {
@@ -51,4 +59,8 @@ class App extends Component {
 
 }
 
-export default connect(null, actions)(App);
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default connect(mapStateToProps, actions)(App);
