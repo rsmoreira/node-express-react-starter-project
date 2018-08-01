@@ -24,7 +24,7 @@ class Header extends Component {
                         <Link 
                             to={this.props.auth ? "/dashboard" : "/"}
                             className="left brand-logo"
-                            style={{ paddingLeft: '10px', width: '17%' }}
+                            style={{ paddingLeft: '10px', width: '230px' }}
                         >
                             <img src={"/images/eCore_logos_rgb-04_adjusted.png"}  style={{ width: '100%' }} />
                             
