@@ -5,7 +5,7 @@ const AuthFailed = () => {
         <div style={{ textAlign: 'center' }}>
             <p>
                 Authentication failed. 
-                You must use an e-Core e-mail.
+                You must use an your-specific-domain e-mail.
             </p>
         </div>
     );

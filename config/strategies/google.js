@@ -20,9 +20,9 @@ module.exports = () => {
                  * OAuth.
                  */
                 
-                if (!profile._json.domain || profile._json.domain != "e-core.com") {
-                    return done(null, false);
-                }
+                // if (!profile._json.domain || profile._json.domain != "your-specific-domain.com") {
+                //     return done(null, false);
+                // }
                 
                 var providerData = profile._json;
                 providerData.accessToken = accessToken;
